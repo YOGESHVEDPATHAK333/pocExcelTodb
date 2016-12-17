@@ -1,0 +1,128 @@
+﻿@model DoctorsManagmentSystem.Models.Clinic
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    
+    <div class="form-horizontal">
+        <h4>Clinic</h4>
+        <hr />
+        @Html.ValidationSummary(true)
+        @Html.HiddenFor(model => model.DoctorId)
+
+        @Html.HiddenFor(model => model.ClinicName)
+
+        @Html.HiddenFor(model => model.Address)
+
+        @Html.HiddenFor(model => model.City)
+
+        @Html.HiddenFor(model => model.State)
+
+        @Html.HiddenFor(model => model.PinCode)
+
+        @Html.HiddenFor(model => model.Latitude)
+
+        @Html.HiddenFor(model => model.Longitude)
+
+        @Html.HiddenFor(model => model.ReceptionistAvaliable)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.LoginNeededForReceptionist, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.LoginNeededForReceptionist)
+                @Html.ValidationMessageFor(model => model.LoginNeededForReceptionist)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ReceptionistLoginMobileNumber, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ReceptionistLoginMobileNumber)
+                @Html.ValidationMessageFor(model => model.ReceptionistLoginMobileNumber)
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.LandlineNumberOrMobileNumber)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.EmailId, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.EmailId)
+                @Html.ValidationMessageFor(model => model.EmailId)
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.MorningStartTime)
+
+        @Html.HiddenFor(model => model.MorningEndTime)
+
+        @Html.HiddenFor(model => model.EveningStartTime)
+
+        @Html.HiddenFor(model => model.EveningEndTime)
+
+        @Html.HiddenFor(model => model.Holidays)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.ScheduleDeatils, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.ScheduleDeatils)
+                @Html.ValidationMessageFor(model => model.ScheduleDeatils)
+            </div>
+        </div>
+
+        @Html.HiddenFor(model => model.AppointmentMode)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AppointmentSlotTime, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AppointmentSlotTime)
+                @Html.ValidationMessageFor(model => model.AppointmentSlotTime)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.AdditionalServicesInClinic, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.AdditionalServicesInClinic)
+                @Html.ValidationMessageFor(model => model.AdditionalServicesInClinic)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.Fees, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.Fees)
+                @Html.ValidationMessageFor(model => model.Fees)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.FollowUp, new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.FollowUp)
+                @Html.ValidationMessageFor(model => model.FollowUp)
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

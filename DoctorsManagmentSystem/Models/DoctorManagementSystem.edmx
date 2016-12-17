@@ -1,0 +1,366 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DoctorsManagementSystemModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'DoctorsManagementSystem.dbo.Clinic' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="Clinic">
+          <Key>
+            <PropertyRef Name="DoctorId" />
+            <PropertyRef Name="ClinicName" />
+            <PropertyRef Name="Address" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="PinCode" />
+            <PropertyRef Name="Latitude" />
+            <PropertyRef Name="Longitude" />
+            <PropertyRef Name="ReceptionistAvaliable" />
+            <PropertyRef Name="LandlineNumberOrMobileNumber" />
+            <PropertyRef Name="MorningStartTime" />
+            <PropertyRef Name="MorningEndTime" />
+            <PropertyRef Name="EveningStartTime" />
+            <PropertyRef Name="EveningEndTime" />
+            <PropertyRef Name="Holidays" />
+            <PropertyRef Name="AppointmentMode" />
+          </Key>
+          <Property Name="DoctorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ClinicName" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Address" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PinCode" Type="varchar" MaxLength="10" Nullable="false" />
+          <Property Name="Latitude" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Longitude" Type="decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ReceptionistAvaliable" Type="bit" Nullable="false" />
+          <Property Name="LoginNeededForReceptionist" Type="bit" />
+          <Property Name="ReceptionistLoginMobileNumber" Type="varchar" MaxLength="15" />
+          <Property Name="LandlineNumberOrMobileNumber" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="EmailId" Type="varchar" MaxLength="50" />
+          <Property Name="MorningStartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="MorningEndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EveningStartTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="EveningEndTime" Type="time" Precision="7" Nullable="false" />
+          <Property Name="Holidays" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="ScheduleDeatils" Type="datetime" />
+          <Property Name="AppointmentMode" Type="bit" Nullable="false" />
+          <Property Name="AppointmentSlotTime" Type="bit" />
+          <Property Name="AdditionalServicesInClinic" Type="varchar" MaxLength="100" />
+          <Property Name="Fees" Type="nchar" MaxLength="10" />
+          <Property Name="FollowUp" Type="nchar" MaxLength="10" />
+        </EntityType>
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="DoctorId" />
+          </Key>
+          <Property Name="DoctorId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FormNumber" Type="int" />
+          <Property Name="Date" Type="date" />
+          <Property Name="Title" Type="varchar" MaxLength="50" />
+          <Property Name="FullName" Type="varchar" MaxLength="100" />
+          <Property Name="Gender" Type="bit" />
+          <Property Name="DateOfBirth" Type="date" />
+          <Property Name="MobileNumber" Type="varchar" MaxLength="15" />
+          <Property Name="LandLineNumber" Type="varchar" MaxLength="15" />
+          <Property Name="Qualifications" Type="varchar" MaxLength="50" />
+          <Property Name="Speciality" Type="varchar" MaxLength="50" />
+          <Property Name="Expertise" Type="varchar" MaxLength="50" />
+          <Property Name="RegistrationNumber" Type="varchar" MaxLength="50" />
+          <Property Name="YearsOfExperience" Type="varchar" MaxLength="10" />
+          <Property Name="ShortProfile" Type="varchar" MaxLength="100" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="Website" Type="varchar" MaxLength="50" />
+          <Property Name="Subscription" Type="bit" />
+          <Property Name="SmartPhone" Type="bit" />
+        </EntityType>
+        <EntityType Name="Yogacenter">
+          <Key>
+            <PropertyRef Name="ProcessingNumberId" />
+          </Key>
+          <Property Name="ProcessingNumberId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="DateOfBirth" Type="date" Nullable="false" />
+          <Property Name="Gender" Type="bit" Nullable="false" />
+          <Property Name="Nationality" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="State" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="City" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="PermanantAddress" Type="varchar" MaxLength="100" />
+          <Property Name="PinCode" Type="char" MaxLength="10" Nullable="false" />
+          <Property Name="PhoneNumber" Type="varchar" MaxLength="15" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
+          <Property Name="Email" Type="varchar" MaxLength="50" />
+          <Property Name="AcademicQualification" Type="varchar" MaxLength="50" />
+          <Property Name="Course" Type="int" Nullable="false" />
+          <Property Name="HealthStatus" Type="int" Nullable="false" />
+        </EntityType>
+        <Association Name="FK_Clinic_DoctorId">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="Clinic" Type="Self.Clinic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="DoctorId" />
+            </Principal>
+            <Dependent Role="Clinic">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DoctorsManagementSystemModelStoreContainer">
+          <EntitySet Name="Doctor" EntityType="Self.Doctor" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Yogacenter" EntityType="Self.Yogacenter" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Clinic" EntityType="Self.Clinic" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [Clinic].[DoctorId] AS [DoctorId], 
+    [Clinic].[ClinicName] AS [ClinicName], 
+    [Clinic].[Address] AS [Address], 
+    [Clinic].[City] AS [City], 
+    [Clinic].[State] AS [State], 
+    [Clinic].[PinCode] AS [PinCode], 
+    [Clinic].[Latitude] AS [Latitude], 
+    [Clinic].[Longitude] AS [Longitude], 
+    [Clinic].[ReceptionistAvaliable] AS [ReceptionistAvaliable], 
+    [Clinic].[LoginNeededForReceptionist] AS [LoginNeededForReceptionist], 
+    [Clinic].[ReceptionistLoginMobileNumber] AS [ReceptionistLoginMobileNumber], 
+    [Clinic].[LandlineNumberOrMobileNumber] AS [LandlineNumberOrMobileNumber], 
+    [Clinic].[EmailId] AS [EmailId], 
+    [Clinic].[MorningStartTime] AS [MorningStartTime], 
+    [Clinic].[MorningEndTime] AS [MorningEndTime], 
+    [Clinic].[EveningStartTime] AS [EveningStartTime], 
+    [Clinic].[EveningEndTime] AS [EveningEndTime], 
+    [Clinic].[Holidays] AS [Holidays], 
+    [Clinic].[ScheduleDeatils] AS [ScheduleDeatils], 
+    [Clinic].[AppointmentMode] AS [AppointmentMode], 
+    [Clinic].[AppointmentSlotTime] AS [AppointmentSlotTime], 
+    [Clinic].[AdditionalServicesInClinic] AS [AdditionalServicesInClinic], 
+    [Clinic].[Fees] AS [Fees], 
+    [Clinic].[FollowUp] AS [FollowUp]
+    FROM [dbo].[Clinic] AS [Clinic]</DefiningQuery>
+          </EntitySet>
+          <AssociationSet Name="FK_Clinic_DoctorId" Association="Self.FK_Clinic_DoctorId">
+            <End Role="Doctor" EntitySet="Doctor" />
+            <End Role="Clinic" EntitySet="Clinic" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DoctorsManagementSystemModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Doctor">
+          <Key>
+            <PropertyRef Name="DoctorId" />
+          </Key>
+          <Property Name="DoctorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FormNumber" Type="Int32" />
+          <Property Name="Date" Type="DateTime" Precision="0" />
+          <Property Name="Title" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Gender" Type="Boolean" />
+          <Property Name="DateOfBirth" Type="DateTime" Precision="0" />
+          <Property Name="MobileNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LandLineNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="Qualifications" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Speciality" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Expertise" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="RegistrationNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="YearsOfExperience" Type="String" MaxLength="10" FixedLength="false" Unicode="false" />
+          <Property Name="ShortProfile" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Website" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Subscription" Type="Boolean" />
+          <Property Name="SmartPhone" Type="Boolean" />
+          <NavigationProperty Name="Clinics" Relationship="Self.FK_Clinic_DoctorId" FromRole="Doctor" ToRole="Clinic" />
+        </EntityType>
+        <EntityType Name="Yogacenter">
+          <Key>
+            <PropertyRef Name="ProcessingNumberId" />
+          </Key>
+          <Property Name="ProcessingNumberId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="FullName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="DateOfBirth" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Gender" Type="Boolean" Nullable="false" />
+          <Property Name="Nationality" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PermanantAddress" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="PinCode" Type="String" MaxLength="10" FixedLength="true" Unicode="false" Nullable="false" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="Email" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="AcademicQualification" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Course" Type="Int32" Nullable="false" />
+          <Property Name="HealthStatus" Type="Int32" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Clinic">
+          <Key>
+            <PropertyRef Name="DoctorId" />
+            <PropertyRef Name="ClinicName" />
+            <PropertyRef Name="Address" />
+            <PropertyRef Name="City" />
+            <PropertyRef Name="State" />
+            <PropertyRef Name="PinCode" />
+            <PropertyRef Name="Latitude" />
+            <PropertyRef Name="Longitude" />
+            <PropertyRef Name="ReceptionistAvaliable" />
+            <PropertyRef Name="LandlineNumberOrMobileNumber" />
+            <PropertyRef Name="MorningStartTime" />
+            <PropertyRef Name="MorningEndTime" />
+            <PropertyRef Name="EveningStartTime" />
+            <PropertyRef Name="EveningEndTime" />
+            <PropertyRef Name="Holidays" />
+            <PropertyRef Name="AppointmentMode" />
+          </Key>
+          <Property Name="DoctorId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ClinicName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Address" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="City" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="State" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="PinCode" Type="String" MaxLength="10" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Latitude" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="Longitude" Type="Decimal" Precision="18" Scale="0" Nullable="false" />
+          <Property Name="ReceptionistAvaliable" Type="Boolean" Nullable="false" />
+          <Property Name="LoginNeededForReceptionist" Type="Boolean" />
+          <Property Name="ReceptionistLoginMobileNumber" Type="String" MaxLength="15" FixedLength="false" Unicode="false" />
+          <Property Name="LandlineNumberOrMobileNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="EmailId" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="MorningStartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="MorningEndTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EveningStartTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="EveningEndTime" Type="Time" Nullable="false" Precision="7" />
+          <Property Name="Holidays" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="ScheduleDeatils" Type="DateTime" Precision="3" />
+          <Property Name="AppointmentMode" Type="Boolean" Nullable="false" />
+          <Property Name="AppointmentSlotTime" Type="Boolean" />
+          <Property Name="AdditionalServicesInClinic" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+          <Property Name="Fees" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <Property Name="FollowUp" Type="String" MaxLength="10" FixedLength="true" Unicode="true" />
+          <NavigationProperty Name="Doctor" Relationship="Self.FK_Clinic_DoctorId" FromRole="Clinic" ToRole="Doctor" />
+        </EntityType>
+        <Association Name="FK_Clinic_DoctorId">
+          <End Role="Doctor" Type="Self.Doctor" Multiplicity="1" />
+          <End Role="Clinic" Type="Self.Clinic" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Doctor">
+              <PropertyRef Name="DoctorId" />
+            </Principal>
+            <Dependent Role="Clinic">
+              <PropertyRef Name="DoctorId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DoctorsManagementSystemEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Doctors" EntityType="Self.Doctor" />
+          <EntitySet Name="Yogacenters" EntityType="Self.Yogacenter" />
+          <EntitySet Name="Clinics" EntityType="Self.Clinic" />
+          <AssociationSet Name="FK_Clinic_DoctorId" Association="Self.FK_Clinic_DoctorId">
+            <End Role="Doctor" EntitySet="Doctors" />
+            <End Role="Clinic" EntitySet="Clinics" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DoctorsManagementSystemModelStoreContainer" CdmEntityContainer="DoctorsManagementSystemEntities">
+          <EntitySetMapping Name="Doctors">
+            <EntityTypeMapping TypeName="DoctorsManagementSystemModel.Doctor">
+              <MappingFragment StoreEntitySet="Doctor">
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="FormNumber" ColumnName="FormNumber" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="MobileNumber" ColumnName="MobileNumber" />
+                <ScalarProperty Name="LandLineNumber" ColumnName="LandLineNumber" />
+                <ScalarProperty Name="Qualifications" ColumnName="Qualifications" />
+                <ScalarProperty Name="Speciality" ColumnName="Speciality" />
+                <ScalarProperty Name="Expertise" ColumnName="Expertise" />
+                <ScalarProperty Name="RegistrationNumber" ColumnName="RegistrationNumber" />
+                <ScalarProperty Name="YearsOfExperience" ColumnName="YearsOfExperience" />
+                <ScalarProperty Name="ShortProfile" ColumnName="ShortProfile" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="Website" ColumnName="Website" />
+                <ScalarProperty Name="Subscription" ColumnName="Subscription" />
+                <ScalarProperty Name="SmartPhone" ColumnName="SmartPhone" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Yogacenters">
+            <EntityTypeMapping TypeName="DoctorsManagementSystemModel.Yogacenter">
+              <MappingFragment StoreEntitySet="Yogacenter">
+                <ScalarProperty Name="ProcessingNumberId" ColumnName="ProcessingNumberId" />
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
+                <ScalarProperty Name="DateOfBirth" ColumnName="DateOfBirth" />
+                <ScalarProperty Name="Gender" ColumnName="Gender" />
+                <ScalarProperty Name="Nationality" ColumnName="Nationality" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="PermanantAddress" ColumnName="PermanantAddress" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="AcademicQualification" ColumnName="AcademicQualification" />
+                <ScalarProperty Name="Course" ColumnName="Course" />
+                <ScalarProperty Name="HealthStatus" ColumnName="HealthStatus" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Clinics">
+            <EntityTypeMapping TypeName="DoctorsManagementSystemModel.Clinic">
+              <MappingFragment StoreEntitySet="Clinic">
+                <ScalarProperty Name="DoctorId" ColumnName="DoctorId" />
+                <ScalarProperty Name="ClinicName" ColumnName="ClinicName" />
+                <ScalarProperty Name="Address" ColumnName="Address" />
+                <ScalarProperty Name="City" ColumnName="City" />
+                <ScalarProperty Name="State" ColumnName="State" />
+                <ScalarProperty Name="PinCode" ColumnName="PinCode" />
+                <ScalarProperty Name="Latitude" ColumnName="Latitude" />
+                <ScalarProperty Name="Longitude" ColumnName="Longitude" />
+                <ScalarProperty Name="ReceptionistAvaliable" ColumnName="ReceptionistAvaliable" />
+                <ScalarProperty Name="LoginNeededForReceptionist" ColumnName="LoginNeededForReceptionist" />
+                <ScalarProperty Name="ReceptionistLoginMobileNumber" ColumnName="ReceptionistLoginMobileNumber" />
+                <ScalarProperty Name="LandlineNumberOrMobileNumber" ColumnName="LandlineNumberOrMobileNumber" />
+                <ScalarProperty Name="EmailId" ColumnName="EmailId" />
+                <ScalarProperty Name="MorningStartTime" ColumnName="MorningStartTime" />
+                <ScalarProperty Name="MorningEndTime" ColumnName="MorningEndTime" />
+                <ScalarProperty Name="EveningStartTime" ColumnName="EveningStartTime" />
+                <ScalarProperty Name="EveningEndTime" ColumnName="EveningEndTime" />
+                <ScalarProperty Name="Holidays" ColumnName="Holidays" />
+                <ScalarProperty Name="ScheduleDeatils" ColumnName="ScheduleDeatils" />
+                <ScalarProperty Name="AppointmentMode" ColumnName="AppointmentMode" />
+                <ScalarProperty Name="AppointmentSlotTime" ColumnName="AppointmentSlotTime" />
+                <ScalarProperty Name="AdditionalServicesInClinic" ColumnName="AdditionalServicesInClinic" />
+                <ScalarProperty Name="Fees" ColumnName="Fees" />
+                <ScalarProperty Name="FollowUp" ColumnName="FollowUp" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

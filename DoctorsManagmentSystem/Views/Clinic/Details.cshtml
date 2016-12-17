@@ -1,0 +1,90 @@
+﻿@model DoctorsManagmentSystem.Models.Clinic
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Clinic</h4>
+	<hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.LoginNeededForReceptionist)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.LoginNeededForReceptionist)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ReceptionistLoginMobileNumber)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ReceptionistLoginMobileNumber)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EmailId)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EmailId)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ScheduleDeatils)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ScheduleDeatils)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AppointmentSlotTime)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AppointmentSlotTime)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AdditionalServicesInClinic)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AdditionalServicesInClinic)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Fees)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Fees)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.FollowUp)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.FollowUp)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Doctor.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Doctor.Title)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
