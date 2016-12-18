@@ -1,13 +1,15 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Data;
 using System.Data.Entity;
 using System.Data.Entity.Validation;
 using System.Data.OleDb;
+using System.IO;
 using System.Linq;
 using System.Net;
+using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
-using DoctorsManagmentSystem.BusinessLogic;
 using DoctorsManagmentSystem.Models;
 using LinqToExcel;
 
@@ -15,37 +17,35 @@ namespace DoctorsManagmentSystem.Controllers
 {
     public class DoctorController : Controller
     {
-        private DoctorsManagementSystemEntities db = new DoctorsManagementSystemEntities();
-
+        private DoctorsManagementSystemEntities db = new DoctorsManagementSystemEntities(); 
 
         public ActionResult Index()
         {
-            ViewBag.StatusMessage = "Uploaded";
             return View(db.Doctors.ToList());
-        }
-        //yogesh
+        } 
+
         public FileResult DownloadExcel()
         {
-            const string path = "/Doc/Users.xlsx";
+            string path = "/Doc/Users.xlsx";
             return File(path, "application/vnd.ms-excel", "Users.xlsx");
         }
-
-        //yogesh
+         
         [HttpPost]
-        public JsonResult UploadExcel(Doctor users, HttpPostedFileBase FileUpload)
+        public ActionResult UploadExcel(Doctor users, HttpPostedFileBase FileUpload)
         {
 
-            var data = new List<string>();
-            var validatedDoctors = new List<Doctor>();
-            var inValidatedDoctors = new List<Doctor>();
+            List<string> data = new List<string>();
             if (FileUpload != null)
             {
+                // tdata.ExecuteCommand("truncate table OtherCompanyAssets");  
                 if (FileUpload.ContentType == "application/vnd.ms-excel" || FileUpload.ContentType == "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet")
                 {
-                    var filename = FileUpload.FileName;
-                    var targetpath = Server.MapPath("~/Doc/");
+
+
+                    string filename = FileUpload.FileName;
+                    string targetpath = Server.MapPath("~/Doc/");
                     FileUpload.SaveAs(targetpath + filename);
-                    var pathToExcelFile = targetpath + filename;
+                    string pathToExcelFile = targetpath + filename;
                     var connectionString = "";
                     if (filename.EndsWith(".xls"))
                     {
@@ -58,8 +58,13 @@ namespace DoctorsManagmentSystem.Controllers
 
                     var adapter = new OleDbDataAdapter("SELECT * FROM [Sheet1$]", connectionString);
                     var ds = new DataSet();
+
                     adapter.Fill(ds, "ExcelTable");
-                    const string sheetName = "Sheet1";
+
+                    DataTable dtable = ds.Tables["ExcelTable"];
+
+                    string sheetName = "Sheet1";
+
                     var excelFile = new ExcelQueryFactory(pathToExcelFile);
                     var artistAlbums = from a in excelFile.Worksheet<Doctor>(sheetName) select a;
 
@@ -67,32 +72,49 @@ namespace DoctorsManagmentSystem.Controllers
                     {
                         try
                         {
-                            //Todo validate(doctor)
-                            var doctor = GetFormattedDocotr(a);
-                            validatedDoctors.Add(doctor);
+
+                            Doctor TU = new Doctor();
+                            TU.DoctorId = a.DoctorId;
+                            TU.FormNumber = a.FormNumber;
+                            TU.Date = a.Date;
+                            TU.Title = a.Title;
+                            TU.FullName = a.FullName;
+                            TU.Gender = a.Gender;
+                            TU.DateOfBirth = a.DateOfBirth;
+                            TU.MobileNumber = a.MobileNumber;
+                            TU.LandLineNumber = a.LandLineNumber;
+                            TU.Qualifications = TU.Qualifications;
+                            TU.Speciality = TU.Speciality;
+                            TU.Expertise = TU.Expertise;
+                            TU.RegistrationNumber = TU.RegistrationNumber;
+                            TU.YearsOfExperience = TU.YearsOfExperience;
+                            TU.ShortProfile = TU.ShortProfile;
+                            TU.Email = TU.Email;
+                            TU.Website = TU.Website;
+                            TU.Subscription = TU.Subscription;
+                            TU.SmartPhone = TU.SmartPhone;
+                            db.Doctors.Add(TU);
+                            db.SaveChanges();
+
                         }
+
                         catch (DbEntityValidationException ex)
                         {
-                            foreach (var validationError in ex.EntityValidationErrors.SelectMany(e => e.ValidationErrors))
+                            foreach (var entityValidationErrors in ex.EntityValidationErrors)
                             {
-                                Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
+
+                                foreach (var validationError in entityValidationErrors.ValidationErrors)
+                                {
+
+                                    Response.Write("Property: " + validationError.PropertyName + " Error: " + validationError.ErrorMessage);
+
+                                }
+
                             }
                         }
                     }
-                    if (validatedDoctors.Count > 0)
-                    {
-                        var populateDataToDb = new PopulateDataToDatabase(db);
-                        populateDataToDb.BatchInsertion(validatedDoctors,"doctor");
-                    }
-                    if (inValidatedDoctors.Count > 0)
-                    {
-                        var populateDataToDb = new PopulateDataToDatabase(db);
-                         populateDataToDb.BatchInsertion(inValidatedDoctors);
-                        ViewBag.FilePath = "";
-                    }
-
                     //deleting excel file from folder  
-                    if (System.IO.File.Exists(pathToExcelFile))
+                    if ((System.IO.File.Exists(pathToExcelFile)))
                     {
                         System.IO.File.Delete(pathToExcelFile);
                     }
@@ -116,35 +138,10 @@ namespace DoctorsManagmentSystem.Controllers
                 data.ToArray();
                 return Json(data, JsonRequestBehavior.AllowGet);
             }
+
+            return View(db.Doctors.ToList());
         }
 
-        private static Doctor GetFormattedDocotr(Doctor a)
-        {
-            if (a != null)
-                return new Doctor
-                {
-                    DoctorId = a.DoctorId,
-                    FormNumber = a.FormNumber,
-                    Date = a.Date,
-                    Title = a.Title,
-                    FullName = a.FullName,
-                    Gender = a.Gender,
-                    DateOfBirth = a.DateOfBirth,
-                    MobileNumber = a.MobileNumber,
-                    LandLineNumber = a.LandLineNumber,
-                    Qualifications = a.Qualifications,
-                    Speciality = a.Speciality,
-                    Expertise = a.Expertise,
-                    RegistrationNumber = a.RegistrationNumber,
-                    YearsOfExperience = a.YearsOfExperience,
-                    ShortProfile = a.ShortProfile,
-                    Email = a.Email,
-                    Website = a.Website,
-                    Subscription = a.Subscription,
-                    SmartPhone = a.SmartPhone
-                };
-            return null;
-        }
 
 
         // GET: /Doctor/Details/5
@@ -155,7 +152,7 @@ namespace DoctorsManagmentSystem.Controllers
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
 
-            var doctor = db.Doctors.Find(id);
+            Doctor doctor = db.Doctors.Find(id);
             if (doctor == null)
             {
                 return HttpNotFound();
@@ -193,7 +190,7 @@ namespace DoctorsManagmentSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var doctor = db.Doctors.Find(id);
+            Doctor doctor = db.Doctors.Find(id);
             if (doctor == null)
             {
                 return HttpNotFound();
@@ -224,7 +221,7 @@ namespace DoctorsManagmentSystem.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            var doctor = db.Doctors.Find(id);
+            Doctor doctor = db.Doctors.Find(id);
             if (doctor == null)
             {
                 return HttpNotFound();
@@ -237,7 +234,7 @@ namespace DoctorsManagmentSystem.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
-            var doctor = db.Doctors.Find(id);
+            Doctor doctor = db.Doctors.Find(id);
             db.Doctors.Remove(doctor);
             db.SaveChanges();
             return RedirectToAction("Index");
